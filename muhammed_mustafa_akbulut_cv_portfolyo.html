@@ -1,0 +1,2415 @@
+<!DOCTYPE html>
+<html lang="tr" class="theme-grafit">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Muhammed Mustafa Akbulut — Web Tasarımı &amp; Kodlama</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          screens: {
+            xs: '480px',
+            desk: '900px'
+          },
+          fontFamily: {
+            display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+
+  <style>
+    :root,
+    html.theme-grafit {
+      --bg-primary: #121211;
+      --bg-surface: #1A1A18;
+      --bg-elevated: #232320;
+      --border-color: #2E2E2A;
+      --text-primary: #F2F0EA;
+      --text-muted: #9E9B93;
+      --accent: #E85D35;
+      --accent-hover: #F26E47;
+      --accent-fg: #FFFFFF;
+      --accent-soft: rgba(232, 93, 53, 0.14);
+      --grid-line: rgba(242, 240, 234, 0.03);
+      --code-bg: #0D0D0C;
+      --code-header: #161614;
+      --code-text: #F2F0EA;
+    }
+
+    html.theme-kagit {
+      --bg-primary: #F6F5F0;
+      --bg-surface: #FFFFFF;
+      --bg-elevated: #EDEBE4;
+      --border-color: #DFDDD4;
+      --text-primary: #141413;
+      --text-muted: #57564F;
+      --accent: #D94E28;
+      --accent-hover: #BF3E1B;
+      --accent-fg: #FFFFFF;
+      --accent-soft: rgba(217, 78, 40, 0.11);
+      --grid-line: rgba(20, 20, 19, 0.04);
+      --code-bg: #161615;
+      --code-header: #1F1F1D;
+      --code-text: #F2F0E8;
+    }
+
+    html.theme-cizim {
+      --bg-primary: #0E1726;
+      --bg-surface: #152238;
+      --bg-elevated: #1D2E4C;
+      --border-color: #293F66;
+      --text-primary: #F1F5F9;
+      --text-muted: #94A3B8;
+      --accent: #38BDF8;
+      --accent-hover: #7DD3FC;
+      --accent-fg: #0B1320;
+      --accent-soft: rgba(56, 189, 248, 0.14);
+      --grid-line: rgba(56, 189, 248, 0.045);
+      --code-bg: #09101D;
+      --code-header: #101B2E;
+      --code-text: #E2E8F0;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      max-width: 100%;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      max-width: 100%;
+      overflow-x: hidden;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      background-image:
+        linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+      background-size: 48px 48px;
+      padding-bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px));
+      transition: background-color 0.22s ease, color 0.22s ease;
+    }
+
+    @media (min-width: 900px) {
+      body {
+        padding-bottom: 0;
+      }
+    }
+
+    .fluid-h1 {
+      font-size: clamp(1.9rem, 4.5vw + 0.75rem, 3.35rem);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    .fluid-h2 {
+      font-size: clamp(1.38rem, 2.3vw + 0.75rem, 2.1rem);
+      line-height: 1.16;
+      letter-spacing: -0.02em;
+    }
+
+    .fluid-h3 {
+      font-size: clamp(1.02rem, 1.05vw + 0.75rem, 1.25rem);
+      line-height: 1.3;
+    }
+
+    .fluid-lead {
+      font-size: clamp(0.95rem, 0.5vw + 0.82rem, 1.125rem);
+      line-height: 1.65;
+    }
+
+    .fluid-body {
+      font-size: clamp(0.875rem, 0.25vw + 0.8rem, 0.98rem);
+      line-height: 1.68;
+    }
+
+    .safe-top-header {
+      padding-top: env(safe-area-inset-top, 0px);
+    }
+
+    .safe-bottom-dock {
+      padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+    }
+
+    .safe-modal-shell {
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    @media (max-width: 899px) {
+      .touch-target {
+        min-height: 44px;
+        min-width: 44px;
+      }
+
+      input,
+      textarea,
+      select {
+        font-size: 16px !important;
+      }
+    }
+
+    .projects-responsive-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr));
+      gap: 1.5rem;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .surface-card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      min-width: 0;
+      transition: background-color 0.22s ease, border-color 0.2s ease;
+    }
+
+    .surface-card-hover:hover {
+      border-color: var(--accent);
+    }
+
+    .surface-elevated {
+      background-color: var(--bg-elevated);
+      border: 1px solid var(--border-color);
+      min-width: 0;
+    }
+
+    .hairline-b {
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .hairline-t {
+      border-top: 1px solid var(--border-color);
+    }
+
+    .hairline-r {
+      border-right: 1px solid var(--border-color);
+    }
+
+    .text-ink {
+      color: var(--text-primary);
+    }
+
+    .text-muted {
+      color: var(--text-muted);
+    }
+
+    .text-accent {
+      color: var(--accent);
+    }
+
+    .bg-accent {
+      background-color: var(--accent);
+      color: var(--accent-fg);
+    }
+
+    .bg-accent:hover {
+      background-color: var(--accent-hover);
+    }
+
+    .bg-accent-soft {
+      background-color: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .input-editorial {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .input-editorial:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .input-editorial.input-error {
+      border-color: #EF4444 !important;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-muted);
+    }
+
+    .code-line-table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    .code-line-num {
+      user-select: none;
+      text-align: right;
+      padding-right: 0.85rem;
+      color: #6B7280;
+      width: 2.75rem;
+      vertical-align: top;
+    }
+
+    .code-line-content {
+      white-space: pre;
+      vertical-align: top;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased">
+  <header class="sticky top-0 z-40 w-full safe-top-header backdrop-blur-md hairline-b" style="background-color: color-mix(in srgb, var(--bg-primary) 90%, transparent);">
+    <div class="max-w-6xl mx-auto px-3.5 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2.5 shrink-0 min-w-0">
+        <button
+          type="button"
+          id="brandMonogramTrigger"
+          aria-label="Ana Sayfa"
+          class="touch-target w-10 h-10 desk:w-9 desk:h-9 rounded-lg surface-card hover:border-[var(--accent)] flex items-center justify-center font-display font-bold text-base tracking-tight text-ink shrink-0 select-none"
+        >
+          MA<span class="text-accent">.</span>
+        </button>
+        <a href="#top" data-scroll-target="top" class="smooth-nav-link flex flex-col min-w-0">
+          <span class="font-display font-bold text-xs xs:text-sm text-ink leading-none tracking-tight truncate">
+            Muhammed M. Akbulut
+          </span>
+          <span class="font-mono text-[10px] xs:text-[11px] text-muted mt-1 truncate">
+            Web Tasarımı &amp; Kodlama
+          </span>
+        </a>
+      </div>
+
+      <nav class="hidden desk:flex items-center gap-1 text-xs font-medium text-muted" aria-label="Ana Menü">
+        <a href="#hakkimda" data-scroll-target="hakkimda" data-nav-spy="hakkimda" class="smooth-nav-link px-3 py-2 rounded-lg hover:text-ink hover:bg-[var(--bg-elevated)] transition-colors">Hakkımda</a>
+        <a href="#projeler" data-scroll-target="projeler" data-nav-spy="projeler" class="smooth-nav-link px-3 py-2 rounded-lg hover:text-ink hover:bg-[var(--bg-elevated)] transition-colors">Projeler</a>
+        <a href="#konsol" data-scroll-target="konsol" data-nav-spy="konsol" class="smooth-nav-link px-3 py-2 rounded-lg hover:text-ink hover:bg-[var(--bg-elevated)] transition-colors">Canlı Konsol</a>
+        <a href="#yetenekler" data-scroll-target="yetenekler" data-nav-spy="yetenekler" class="smooth-nav-link px-3 py-2 rounded-lg hover:text-ink hover:bg-[var(--bg-elevated)] transition-colors">Yetenekler</a>
+        <a href="#iletisim" data-scroll-target="iletisim" data-nav-spy="iletisim" class="smooth-nav-link px-3 py-2 rounded-lg hover:text-ink hover:bg-[var(--bg-elevated)] transition-colors">İletişim</a>
+      </nav>
+
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <button
+          type="button"
+          onclick="openCommandPalette()"
+          title="Komut Paleti (Ctrl + K)"
+          aria-label="Komut Paleti ve Arama"
+          class="touch-target inline-flex items-center justify-center gap-2 px-2.5 desk:px-3 py-2 desk:py-1.5 rounded-lg surface-card surface-card-hover text-xs text-muted hover:text-ink transition-colors"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <span class="hidden lg:inline">Komutlar</span>
+          <kbd class="hidden desk:inline font-mono text-[10px] px-1.5 py-0.5 rounded surface-elevated text-ink">Ctrl K</kbd>
+        </button>
+
+        <div class="hidden desk:flex items-center p-0.5 rounded-lg surface-elevated" role="group" aria-label="Tema Seçimi">
+          <button
+            type="button"
+            onclick="setEditorialTheme('grafit')"
+            data-theme-btn="grafit"
+            class="theme-switch-btn px-2.5 py-1 rounded-md font-mono text-[11px] font-medium transition-colors"
+          >
+            Grafit
+          </button>
+          <button
+            type="button"
+            onclick="setEditorialTheme('kagit')"
+            data-theme-btn="kagit"
+            class="theme-switch-btn px-2.5 py-1 rounded-md font-mono text-[11px] font-medium transition-colors"
+          >
+            Kağıt
+          </button>
+          <button
+            type="button"
+            onclick="setEditorialTheme('cizim')"
+            data-theme-btn="cizim"
+            class="theme-switch-btn px-2.5 py-1 rounded-md font-mono text-[11px] font-medium transition-colors"
+          >
+            Çizim
+          </button>
+        </div>
+
+        <button
+          type="button"
+          onclick="cycleEditorialTheme()"
+          aria-label="Temayı Değiştir"
+          title="Temayı Değiştir (Grafit / Kağıt / Çizim)"
+          class="desk:hidden touch-target inline-flex items-center justify-center px-2.5 rounded-lg surface-card text-ink"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2"></path>
+            <path d="M12 20v2"></path>
+            <path d="m4.93 4.93 1.41 1.41"></path>
+            <path d="m17.66 17.66 1.41 1.41"></path>
+            <path d="M2 12h2"></path>
+            <path d="M20 12h2"></path>
+            <path d="m6.34 17.66-1.41 1.41"></path>
+            <path d="m19.07 4.93-1.41 1.41"></path>
+          </svg>
+        </button>
+
+        <a
+          id="headerGithubLink"
+          href="https://github.com/muhammedmustafa6308-max"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub Profili"
+          class="touch-target inline-flex items-center justify-center gap-2 px-3 desk:px-3.5 py-2 desk:py-1.5 rounded-lg bg-accent font-display font-bold text-xs tracking-tight transition-transform active:scale-95"
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+          </svg>
+          <span class="hidden xs:inline">GitHub</span>
+        </a>
+
+        <button
+          type="button"
+          onclick="toggleMobileNav()"
+          aria-label="Menüyü Aç"
+          class="desk:hidden touch-target inline-flex items-center justify-center p-2.5 rounded-lg surface-card text-ink"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobileNavDrawer" class="hidden desk:hidden hairline-t px-4 py-4 space-y-3" style="background-color: var(--bg-surface);">
+      <div class="grid grid-cols-2 gap-2 text-xs font-medium">
+        <a href="#hakkimda" data-scroll-target="hakkimda" class="smooth-nav-link touch-target flex items-center px-3.5 py-2.5 rounded-lg surface-elevated text-ink">01. Hakkımda</a>
+        <a href="#projeler" data-scroll-target="projeler" class="smooth-nav-link touch-target flex items-center px-3.5 py-2.5 rounded-lg surface-elevated text-ink">02. Projeler</a>
+        <a href="#konsol" data-scroll-target="konsol" class="smooth-nav-link touch-target flex items-center px-3.5 py-2.5 rounded-lg surface-elevated text-ink">03. Canlı Konsol</a>
+        <a href="#yetenekler" data-scroll-target="yetenekler" class="smooth-nav-link touch-target flex items-center px-3.5 py-2.5 rounded-lg surface-elevated text-ink">04. Yetenekler</a>
+        <a href="#iletisim" data-scroll-target="iletisim" class="smooth-nav-link col-span-2 touch-target flex items-center px-3.5 py-2.5 rounded-lg surface-elevated text-ink">05. İletişim Merkezi</a>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between gap-2 pt-2.5 hairline-t">
+        <span class="font-mono text-[11px] text-muted">Tema:</span>
+        <div class="flex items-center p-1 rounded-lg surface-elevated">
+          <button type="button" onclick="setEditorialTheme('grafit')" data-theme-btn="grafit" class="theme-switch-btn touch-target px-3 py-1.5 rounded-md font-mono text-xs">Grafit</button>
+          <button type="button" onclick="setEditorialTheme('kagit')" data-theme-btn="kagit" class="theme-switch-btn touch-target px-3 py-1.5 rounded-md font-mono text-xs">Kağıt</button>
+          <button type="button" onclick="setEditorialTheme('cizim')" data-theme-btn="cizim" class="theme-switch-btn touch-target px-3 py-1.5 rounded-md font-mono text-xs">Çizim</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav
+    id="mobileBottomDock"
+    aria-label="Hızlı Mobil Erişim"
+    class="desk:hidden fixed bottom-0 inset-x-0 z-40 safe-bottom-dock hairline-t backdrop-blur-md px-2 pt-1.5"
+    style="background-color: color-mix(in srgb, var(--bg-surface) 94%, transparent);"
+  >
+    <div class="max-w-lg mx-auto grid grid-cols-5 gap-1">
+      <a
+        href="#hakkimda"
+        data-scroll-target="hakkimda"
+        data-dock-spy="hakkimda"
+        class="smooth-nav-link touch-target flex flex-col items-center justify-center py-1 rounded-lg text-muted hover:text-ink transition-colors"
+      >
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        <span class="font-mono text-[10px] mt-0.5 leading-none">Hakkımda</span>
+      </a>
+
+      <a
+        href="#projeler"
+        data-scroll-target="projeler"
+        data-dock-spy="projeler"
+        class="smooth-nav-link touch-target flex flex-col items-center justify-center py-1 rounded-lg text-muted hover:text-ink transition-colors"
+      >
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 18 22 12 16 6"></polyline>
+          <polyline points="8 6 2 12 8 18"></polyline>
+        </svg>
+        <span class="font-mono text-[10px] mt-0.5 leading-none">Projeler</span>
+      </a>
+
+      <a
+        href="#konsol"
+        data-scroll-target="konsol"
+        data-dock-spy="konsol"
+        class="smooth-nav-link touch-target flex flex-col items-center justify-center py-1 rounded-lg text-muted hover:text-ink transition-colors"
+      >
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="4 17 10 11 4 5"></polyline>
+          <line x1="12" y1="19" x2="20" y2="19"></line>
+        </svg>
+        <span class="font-mono text-[10px] mt-0.5 leading-none">Konsol</span>
+      </a>
+
+      <a
+        href="#iletisim"
+        data-scroll-target="iletisim"
+        data-dock-spy="iletisim"
+        class="smooth-nav-link touch-target flex flex-col items-center justify-center py-1 rounded-lg text-muted hover:text-ink transition-colors"
+      >
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+          <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+        <span class="font-mono text-[10px] mt-0.5 leading-none">İletişim</span>
+      </a>
+
+      <button
+        type="button"
+        onclick="openWhatsAppQuick()"
+        class="touch-target flex flex-col items-center justify-center py-1 rounded-lg text-accent hover:opacity-85 transition-opacity"
+      >
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+        </svg>
+        <span class="font-mono text-[10px] font-semibold mt-0.5 leading-none">WhatsApp</span>
+      </button>
+    </div>
+  </nav>
+
+  <main id="top" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-14 desk:py-16 space-y-20 desk:space-y-24">
+
+    <section class="grid grid-cols-1 desk:grid-cols-12 gap-7 desk:gap-10 items-stretch">
+      <div class="desk:col-span-7 min-w-0 flex flex-col justify-between space-y-7">
+        <div class="space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full surface-card font-mono text-[11px] sm:text-xs text-ink max-w-full">
+            <span class="w-2 h-2 rounded-full bg-[#22C55E] shrink-0"></span>
+            <span class="truncate">Harran Üniversitesi • Web Tasarımı ve Kodlama</span>
+          </div>
+
+          <h1 class="font-display fluid-h1 font-bold text-ink break-words">
+            Muhammed Mustafa <span class="text-accent">Akbulut</span>
+          </h1>
+
+          <p class="fluid-lead text-muted max-w-2xl">
+            İnsanların günlük hayatta karşılaştığı sorunlara pratik ve anlaşılır yazılım çözümleri üretmeye odaklanan web tasarımı ve kodlama öğrencisi.
+          </p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="flex flex-col xs:flex-row flex-wrap items-stretch xs:items-center gap-3">
+            <a
+              href="#projeler"
+              data-scroll-target="projeler"
+              class="smooth-nav-link touch-target w-full xs:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-accent font-display font-bold text-sm tracking-tight transition-transform active:scale-95"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
+              <span>Projeler Bölümü</span>
+            </a>
+
+            <a
+              href="#konsol"
+              data-scroll-target="konsol"
+              class="smooth-nav-link touch-target w-full xs:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg surface-card surface-card-hover font-display font-bold text-sm text-ink tracking-tight"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent">
+                <polyline points="4 17 10 11 4 5"></polyline>
+                <line x1="12" y1="19" x2="20" y2="19"></line>
+              </svg>
+              <span>Canlı Konsolu Dene</span>
+            </a>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2 pt-1 text-xs font-mono">
+            <a
+              href="https://github.com/muhammedmustafa6308-max"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="touch-target inline-flex items-center gap-1.5 px-3 py-2 desk:py-1.5 rounded-lg surface-card surface-card-hover text-ink max-w-full"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="shrink-0">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+              </svg>
+              <span class="truncate">@muhammedmustafa6308-max</span>
+            </a>
+
+            <button
+              type="button"
+              onclick="openWhatsAppQuick()"
+              class="touch-target inline-flex items-center gap-1.5 px-3 py-2 desk:py-1.5 rounded-lg surface-card surface-card-hover text-ink"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-accent shrink-0">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+              </svg>
+              <span id="heroPhoneBadge">05314324715</span>
+            </button>
+
+            <button
+              type="button"
+              onclick="copyConfigEmail()"
+              class="touch-target inline-flex items-center gap-1.5 px-3 py-2 desk:py-1.5 rounded-lg surface-card surface-card-hover text-ink max-w-full"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-accent shrink-0">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+              <span id="heroEmailText" class="truncate">muhammed.akbulut.dev@gmail.com</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="desk:col-span-5 min-w-0">
+        <div class="h-full rounded-xl surface-card p-5 sm:p-6 flex flex-col justify-between space-y-5">
+          <div class="flex items-center gap-3.5 sm:gap-4 min-w-0">
+            <div class="relative shrink-0">
+              <img
+                id="profileAvatarImg"
+                src="https://avatars.githubusercontent.com/muhammedmustafa6308-max"
+                alt="Muhammed Mustafa Akbulut"
+                class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover border border-[var(--border-color)] bg-[var(--bg-elevated)]"
+              />
+              <div id="profileAvatarFallback" class="hidden w-14 h-14 sm:w-16 sm:h-16 rounded-xl border border-[var(--border-color)] surface-elevated flex items-center justify-center font-display font-bold text-xl text-accent">
+                MA
+              </div>
+            </div>
+
+            <div class="min-w-0 flex-1 space-y-1">
+              <div class="flex items-center justify-between gap-2">
+                <h2 class="font-display font-bold text-base sm:text-lg text-ink truncate">
+                  Muhammed M. Akbulut
+                </h2>
+                <span class="font-mono text-[10px] px-2 py-0.5 rounded bg-accent-soft font-medium shrink-0">
+                  ÖĞRENCİ DEV
+                </span>
+              </div>
+              <a
+                href="https://github.com/muhammedmustafa6308-max"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="block font-mono text-xs text-accent hover:underline truncate"
+              >
+                github.com/muhammedmustafa6308-max
+              </a>
+              <p class="text-xs text-muted truncate">
+                Teknik Bilimler MYO • Web Tasarımı ve Kodlama
+              </p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 rounded-lg surface-elevated overflow-hidden text-center">
+            <div class="p-2.5 sm:p-3 hairline-r min-w-0">
+              <div id="statPublishedProjects" class="font-mono font-semibold text-sm sm:text-base text-ink">0</div>
+              <div class="text-[10px] sm:text-[11px] text-muted truncate">Yayında Proje</div>
+            </div>
+            <div class="p-2.5 sm:p-3 hairline-r min-w-0">
+              <div class="font-mono font-semibold text-sm sm:text-base text-ink">18</div>
+              <div class="text-[10px] sm:text-[11px] text-muted truncate">Yaş</div>
+            </div>
+            <div class="p-2.5 sm:p-3 min-w-0">
+              <div class="font-mono font-semibold text-sm sm:text-base text-accent">C#</div>
+              <div class="text-[10px] sm:text-[11px] text-muted truncate">Aktif Odak</div>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-[11px] font-mono text-muted">
+              <span>Öğrenme ve Geliştirme Alanları</span>
+              <span>Web • C# • Python</span>
+            </div>
+            <div class="w-full h-2 rounded-full overflow-hidden flex surface-elevated">
+              <div style="width: 40%; background-color: var(--accent);" title="C# (%40)"></div>
+              <div style="width: 38%; background-color: var(--text-primary);" title="HTML5 / CSS3 / JS (%38)"></div>
+              <div style="width: 22%; background-color: var(--text-muted);" title="Python (%22)"></div>
+            </div>
+            <div class="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-muted">
+              <span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full" style="background-color: var(--accent);"></span>C#</span>
+              <span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full" style="background-color: var(--text-primary);"></span>HTML5 / CSS3 / JS</span>
+              <span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full" style="background-color: var(--text-muted);"></span>Python</span>
+            </div>
+          </div>
+
+          <div class="space-y-2 pt-3 hairline-t">
+            <div class="flex items-center justify-between gap-2 text-[11px] font-mono">
+              <span class="text-muted shrink-0">2026 Çalışma Matrisi</span>
+              <span id="matrixHoverInfo" class="text-accent truncate text-right">Hücrelere dokunun</span>
+            </div>
+            <div id="contributionMatrix" class="grid gap-1" style="grid-template-columns: repeat(16, minmax(0, 1fr));"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="hakkimda" class="scroll-mt-24 space-y-6">
+      <div class="flex items-baseline justify-between gap-4 hairline-b pb-3">
+        <div>
+          <span class="font-mono text-xs text-accent">01 / ÖZGEÇMİŞ</span>
+          <h2 class="font-display fluid-h2 font-bold text-ink mt-0.5">Hakkımda</h2>
+        </div>
+        <span class="hidden sm:inline font-mono text-xs text-muted">Harran Üniversitesi • Önlisans</span>
+      </div>
+
+      <div class="grid grid-cols-1 desk:grid-cols-12 gap-6">
+        <div class="desk:col-span-8 rounded-xl surface-card p-5 sm:p-8 space-y-4">
+          <h3 class="font-display fluid-h3 font-bold text-ink">Eğitim ve Yaklaşım</h3>
+          <p class="fluid-body text-muted">
+            Ben Muhammed Mustafa Akbulut, 18 yaşındayım. Harran Üniversitesi Teknik Bilimler Meslek Yüksekokulu'nda <strong class="text-ink font-semibold">Web Tasarımı ve Kodlama (Önlisans)</strong> öğrenimime devam ediyorum.
+          </p>
+          <p class="fluid-body text-muted">
+            İnsanların günlük hayatta karşılaştığı sorunlara pratik ve anlaşılır yazılım çözümleri üretmeye odaklanıyorum. Eğitim sürecim boyunca <strong class="text-ink font-semibold">C#</strong>, <strong class="text-ink font-semibold">Python</strong>, <strong class="text-ink font-semibold">HTML5</strong>, <strong class="text-ink font-semibold">CSS3</strong> ve <strong class="text-ink font-semibold">JavaScript (ES6+)</strong> alanlarında geliştirdiğim tüm uygulamaları düzenli olarak bu portfolyoya ve GitHub hesabıma ekleyeceğim.
+          </p>
+        </div>
+
+        <div class="desk:col-span-4 rounded-xl surface-card p-5 sm:p-8 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="font-mono text-xs text-accent">AKADEMİK &amp; KİŞİSEL BİLGİLER</div>
+            <dl class="space-y-3 text-xs sm:text-sm">
+              <div class="flex items-center justify-between gap-2 pb-2 hairline-b">
+                <dt class="text-muted shrink-0">Üniversite</dt>
+                <dd class="font-medium text-ink text-right">Harran Üniversitesi</dd>
+              </div>
+              <div class="flex items-center justify-between gap-2 pb-2 hairline-b">
+                <dt class="text-muted shrink-0">Yüksekokul</dt>
+                <dd class="font-medium text-ink text-right">Teknik Bilimler MYO</dd>
+              </div>
+              <div class="flex items-center justify-between gap-2 pb-2 hairline-b">
+                <dt class="text-muted shrink-0">Bölüm</dt>
+                <dd class="font-medium text-ink text-right">Web Tasarımı ve Kodlama</dd>
+              </div>
+              <div class="flex items-center justify-between gap-2 pb-2 hairline-b">
+                <dt class="text-muted shrink-0">Program / Yaş</dt>
+                <dd class="font-medium text-ink text-right">Önlisans • 18</dd>
+              </div>
+              <div class="flex items-center justify-between gap-2">
+                <dt class="text-muted shrink-0">Telefon</dt>
+                <dd id="aboutPhoneValue" class="font-mono text-xs text-ink text-right">05314324715</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projeler" class="scroll-mt-24 space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 hairline-b pb-3">
+        <div>
+          <span class="font-mono text-xs text-accent">02 / PORTFOLYO</span>
+          <h2 class="font-display fluid-h2 font-bold text-ink mt-0.5">Projeler</h2>
+        </div>
+
+        <div id="projectsStatusLabel" class="font-mono text-xs text-muted">
+          0 yayınlanmış proje
+        </div>
+      </div>
+
+      <div id="projectsFilterBar" class="hidden flex-col desk:flex-row desk:items-center justify-between gap-3">
+        <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 desk:pb-0">
+          <button type="button" onclick="filterProjectsBy('ALL')" data-proj-filter="ALL" class="proj-tab-btn touch-target shrink-0 px-3.5 py-2 desk:py-1.5 rounded-lg font-mono text-xs font-semibold bg-accent transition-colors">
+            Tümü (<span id="badge-ALL">0</span>)
+          </button>
+          <button type="button" onclick="filterProjectsBy('Web')" data-proj-filter="Web" class="proj-tab-btn touch-target shrink-0 px-3.5 py-2 desk:py-1.5 rounded-lg font-mono text-xs font-medium surface-card text-muted hover:text-ink transition-colors">
+            Web (<span id="badge-Web">0</span>)
+          </button>
+          <button type="button" onclick="filterProjectsBy('C#')" data-proj-filter="C#" class="proj-tab-btn touch-target shrink-0 px-3.5 py-2 desk:py-1.5 rounded-lg font-mono text-xs font-medium surface-card text-muted hover:text-ink transition-colors">
+            C# (<span id="badge-C#">0</span>)
+          </button>
+          <button type="button" onclick="filterProjectsBy('Python')" data-proj-filter="Python" class="proj-tab-btn touch-target shrink-0 px-3.5 py-2 desk:py-1.5 rounded-lg font-mono text-xs font-medium surface-card text-muted hover:text-ink transition-colors">
+            Python (<span id="badge-Python">0</span>)
+          </button>
+          <button type="button" onclick="filterProjectsBy('Diğer')" data-proj-filter="Diğer" class="proj-tab-btn touch-target shrink-0 px-3.5 py-2 desk:py-1.5 rounded-lg font-mono text-xs font-medium surface-card text-muted hover:text-ink transition-colors">
+            Diğer (<span id="badge-Diğer">0</span>)
+          </button>
+        </div>
+
+        <span class="text-xs text-muted">Kaynak kodları ve detayları incelemek için karta dokunun.</span>
+      </div>
+
+      <div id="projectsContainer"></div>
+    </section>
+
+    <section id="konsol" class="scroll-mt-24 space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 hairline-b pb-3">
+        <div>
+          <span class="font-mono text-xs text-accent">03 / KOD LABORATUVARI</span>
+          <h2 class="font-display fluid-h2 font-bold text-ink mt-0.5">Canlı Konsol Simülatörü</h2>
+        </div>
+        <span class="font-mono text-xs text-muted">C# / Python / JavaScript Algoritma Deneme Ortamı</span>
+      </div>
+
+      <div class="rounded-xl surface-card overflow-hidden grid grid-cols-1 desk:grid-cols-12">
+        <div class="desk:col-span-6 min-w-0 hairline-b desk:border-b-0 desk:hairline-r flex flex-col justify-between" style="background-color: var(--code-bg); color: var(--code-text);">
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5 px-3.5 sm:px-4 py-2.5 border-b border-white/10 overflow-x-auto no-scrollbar" style="background-color: var(--code-header);">
+              <button
+                type="button"
+                onclick="selectSandboxProgram('csharp-calc')"
+                data-sandbox-btn="csharp-calc"
+                class="sandbox-tab-btn touch-target shrink-0 px-3 py-2 desk:py-1.5 rounded-md font-mono text-xs font-semibold bg-accent transition-colors"
+              >
+                Program.cs
+              </button>
+              <button
+                type="button"
+                onclick="selectSandboxProgram('python-text')"
+                data-sandbox-btn="python-text"
+                class="sandbox-tab-btn touch-target shrink-0 px-3 py-2 desk:py-1.5 rounded-md font-mono text-xs text-gray-300 hover:bg-white/10 transition-colors"
+              >
+                MetinAnaliz.py
+              </button>
+              <button
+                type="button"
+                onclick="selectSandboxProgram('js-array')"
+                data-sandbox-btn="js-array"
+                class="sandbox-tab-btn touch-target shrink-0 px-3 py-2 desk:py-1.5 rounded-md font-mono text-xs text-gray-300 hover:bg-white/10 transition-colors"
+              >
+                DiziAraci.js
+              </button>
+            </div>
+
+            <div class="p-4 overflow-x-auto text-xs font-mono leading-relaxed max-h-72 desk:max-h-80">
+              <pre><code id="sandboxSourceCode" class="language-csharp"></code></pre>
+            </div>
+          </div>
+
+          <div class="px-4 py-2.5 border-t border-white/10 flex items-center justify-between gap-2 text-[11px] font-mono text-gray-400">
+            <span id="sandboxFileLabel" class="truncate">Dosya: Program.cs</span>
+            <button type="button" onclick="restartSandbox()" class="touch-target inline-flex items-center px-2.5 rounded bg-white/10 text-white hover:bg-white/20 shrink-0">
+              Sıfırla
+            </button>
+          </div>
+        </div>
+
+        <div class="desk:col-span-6 min-w-0 flex flex-col justify-between p-4 sm:p-6" style="background-color: var(--bg-surface);">
+          <div class="space-y-3 min-w-0">
+            <div class="flex items-center justify-between gap-2 pb-2 hairline-b">
+              <div class="flex items-center gap-2 font-mono text-xs text-ink font-semibold">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent shrink-0">
+                  <polyline points="4 17 10 11 4 5"></polyline>
+                  <line x1="12" y1="19" x2="20" y2="19"></line>
+                </svg>
+                <span>Terminal Çıktısı</span>
+              </div>
+              <span class="font-mono text-[11px] text-muted">Değer girip Gönder'e dokunun</span>
+            </div>
+
+            <div id="sandboxTerminalOutput" class="rounded-lg p-3.5 sm:p-4 font-mono text-xs leading-relaxed space-y-1.5 min-h-[190px] max-h-[240px] overflow-y-auto break-words" style="background-color: var(--code-bg); color: var(--code-text);"></div>
+          </div>
+
+          <form onsubmit="handleSandboxSubmit(event)" class="pt-4 flex items-stretch gap-2">
+            <div class="flex-1 relative min-w-0">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 font-mono text-xs text-accent font-bold">&gt;</span>
+              <input
+                type="text"
+                id="sandboxUserInput"
+                autocomplete="off"
+                placeholder="Girdi yazın..."
+                class="w-full h-11 desk:h-10 pl-7 pr-3 rounded-lg input-editorial font-mono text-xs"
+              />
+            </div>
+            <button
+              type="submit"
+              class="touch-target px-4 rounded-lg bg-accent font-display font-bold text-xs tracking-tight shrink-0"
+            >
+              Gönder
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="yetenekler" class="scroll-mt-24 space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 hairline-b pb-3">
+        <div>
+          <span class="font-mono text-xs text-accent">04 / TEKNİK YIĞIN</span>
+          <h2 class="font-display fluid-h2 font-bold text-ink mt-0.5">Yetenekler</h2>
+        </div>
+        <span class="text-xs text-muted">Temel yazılım ve arayüz geliştirme yetkinlikleri</span>
+      </div>
+
+      <div class="grid grid-cols-1 xs:grid-cols-2 desk:grid-cols-4 gap-4">
+        <div class="rounded-xl surface-card surface-card-hover p-4 sm:p-5 space-y-2">
+          <div class="flex items-center justify-between font-mono text-xs">
+            <span class="text-accent font-semibold">01</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-accent-soft font-medium">Aktif Odak</span>
+          </div>
+          <div class="font-display font-bold text-base text-ink">C#</div>
+          <p class="text-xs text-muted leading-relaxed">Konsol uygulamaları, algoritma kurma ve temel nesne yönelimli programlama.</p>
+        </div>
+
+        <div class="rounded-xl surface-card surface-card-hover p-4 sm:p-5 space-y-2">
+          <div class="flex items-center justify-between font-mono text-xs">
+            <span class="text-accent font-semibold">02</span>
+            <span class="text-[10px] text-muted">Yapı</span>
+          </div>
+          <div class="font-display font-bold text-base text-ink">HTML5</div>
+          <p class="text-xs text-muted leading-relaxed">Semantik etiket mimarisi, erişilebilir form yapıları ve temiz belge düzeni.</p>
+        </div>
+
+        <div class="rounded-xl surface-card surface-card-hover p-4 sm:p-5 space-y-2">
+          <div class="flex items-center justify-between font-mono text-xs">
+            <span class="text-accent font-semibold">03</span>
+            <span class="text-[10px] text-muted">Tasarım</span>
+          </div>
+          <div class="font-display font-bold text-base text-ink">CSS3</div>
+          <p class="text-xs text-muted leading-relaxed">Grid, Flexbox, değişken tabanlı tema mimarisi ve modern stil kurgusu.</p>
+        </div>
+
+        <div class="rounded-xl surface-card surface-card-hover p-4 sm:p-5 space-y-2">
+          <div class="flex items-center justify-between font-mono text-xs">
+            <span class="text-accent font-semibold">04</span>
+            <span class="text-[10px] text-muted">Etkileşim</span>
+          </div>
+          <div class="font-display font-bold text-base text-ink">JavaScript (ES6+)</div>
+          <p class="text-xs text-muted leading-relaxed">DOM yönetimi, modüler fonksiyonlar ve etkileşimli web bileşenleri.</p>
+        </div>
+
+        <div class="rounded-xl surface-card surface-card-hover p-4 sm:p-5 space-y-2">
+          <div class="flex items-center justify-between font-mono text-xs">
+            <span class="text-accent font-semibold">05</span>
+            <span class="text-[10px] text-muted">Betik</span>
+          </div>
+          <div class="font-display font-bold text-base text-ink">Python</div>
+          <p class="text-xs text-muted leading-relaxed">Temel veri işleme, algoritma geliştirme ve pratik otomasyon betikleri.</p>
+        </div>
+
+        <div class="rounded-xl surface-card surface-card-hover p-4 sm:p-5 space-y-2">
+          <div class="flex items-center justify-between font-mono text-xs">
+            <span class="text-accent font-semibold">06</span>
+            <span class="text-[10px] text-muted">Sürüm Kontrol</span>
+          </div>
+          <div class="font-display font-bold text-base text-ink">Git &amp; GitHub</div>
+          <p class="text-xs text-muted leading-relaxed">Depo yönetimi, sürüm takibi ve açık kaynak proje dokümantasyonu.</p>
+        </div>
+
+        <div class="xs:col-span-2 rounded-xl surface-card surface-card-hover p-4 sm:p-5 space-y-2">
+          <div class="flex items-center justify-between font-mono text-xs">
+            <span class="text-accent font-semibold">07</span>
+            <span class="text-[10px] text-muted">Çoklu Ekran</span>
+          </div>
+          <div class="font-display font-bold text-base text-ink">Duyarlı (Responsive) Arayüz Tasarımı</div>
+          <p class="text-xs text-muted leading-relaxed">320px küçük telefon ekranlarından geniş masaüstü monitörlere kadar akışkan ve dokunmatik dostu kullanıcı deneyimi.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="iletisim" class="scroll-mt-24 space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 hairline-b pb-3">
+        <div>
+          <span class="font-mono text-xs text-accent">05 / İLETİŞİM</span>
+          <h2 class="font-display fluid-h2 font-bold text-ink mt-0.5">İletişim Merkezi</h2>
+        </div>
+        <span class="text-xs text-muted">Proje işbirliği, staj veya sorularınız için doğrudan ulaşabilirsiniz</span>
+      </div>
+
+      <div class="grid grid-cols-1 desk:grid-cols-12 gap-7 desk:gap-8 items-start">
+        <div class="desk:col-span-7 min-w-0 rounded-xl surface-card p-5 sm:p-8 space-y-5">
+          <div class="flex items-center justify-between gap-2 pb-3 hairline-b">
+            <h3 class="font-display font-bold text-lg text-ink">Mesaj Gönder</h3>
+            <span class="font-mono text-[11px] text-muted">Tüm alanlar zorunludur</span>
+          </div>
+
+          <form id="contactForm" novalidate onsubmit="event.preventDefault();" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="space-y-1.5">
+                <label for="cName" class="block text-xs font-semibold text-ink">
+                  Ad Soyad <span class="text-accent">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="cName"
+                  oninput="handleContactFieldInput('cName', 'errName')"
+                  placeholder="Adınız ve Soyadınız"
+                  class="w-full px-3.5 py-2.5 rounded-lg input-editorial text-sm"
+                />
+                <p id="errName" class="hidden text-xs text-[#EF4444] font-medium"></p>
+              </div>
+
+              <div class="space-y-1.5">
+                <label for="cEmail" class="block text-xs font-semibold text-ink">
+                  E-posta Adresi <span class="text-accent">*</span>
+                </label>
+                <input
+                  type="email"
+                  id="cEmail"
+                  oninput="handleContactFieldInput('cEmail', 'errEmail')"
+                  placeholder="ornek@gmail.com"
+                  class="w-full px-3.5 py-2.5 rounded-lg input-editorial text-sm"
+                />
+                <p id="errEmail" class="hidden text-xs text-[#EF4444] font-medium"></p>
+              </div>
+            </div>
+
+            <div class="space-y-1.5">
+              <label for="cSubject" class="block text-xs font-semibold text-ink">
+                Konu <span class="text-accent">*</span>
+              </label>
+              <input
+                type="text"
+                id="cSubject"
+                oninput="handleContactFieldInput('cSubject', 'errSubject')"
+                placeholder="Örn: Staj Başvurusu / Proje Görüşmesi"
+                class="w-full px-3.5 py-2.5 rounded-lg input-editorial text-sm"
+              />
+              <p id="errSubject" class="hidden text-xs text-[#EF4444] font-medium"></p>
+            </div>
+
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between gap-2">
+                <label for="cMessage" class="block text-xs font-semibold text-ink">
+                  Mesaj <span class="text-accent">*</span>
+                </label>
+                <span id="cCharCounter" class="font-mono text-[11px] text-muted">0 / min 10 karakter</span>
+              </div>
+              <textarea
+                id="cMessage"
+                rows="4"
+                oninput="handleContactFieldInput('cMessage', 'errMessage')"
+                placeholder="İletmek istediğiniz mesajı detaylı olarak yazın..."
+                class="w-full px-3.5 py-2.5 rounded-lg input-editorial text-sm resize-none"
+              ></textarea>
+              <p id="errMessage" class="hidden text-xs text-[#EF4444] font-medium"></p>
+            </div>
+
+            <div class="pt-2 space-y-2.5">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <button
+                  type="button"
+                  id="btnAjaxSend"
+                  onclick="submitContactAjax()"
+                  class="touch-target inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-accent font-display font-bold text-xs sm:text-sm tracking-tight transition-transform active:scale-[0.99]"
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                  </svg>
+                  <span id="btnAjaxSendLabel">Site Üzerinden Gönder</span>
+                </button>
+
+                <button
+                  type="button"
+                  onclick="sendViaGmailCompose()"
+                  class="touch-target inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg surface-card surface-card-hover font-display font-bold text-xs sm:text-sm text-ink tracking-tight"
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent shrink-0">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                  <span>Gmail ile Gönder</span>
+                </button>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <button
+                  type="button"
+                  onclick="sendViaMailtoClient()"
+                  class="touch-target inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg surface-elevated hover:border-[var(--accent)] font-medium text-xs text-ink transition-colors"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted shrink-0">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  <span>E-posta Uygulamasını Aç</span>
+                </button>
+
+                <button
+                  type="button"
+                  onclick="sendViaWhatsApp(true)"
+                  class="touch-target inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg surface-elevated hover:border-[var(--accent)] font-medium text-xs text-ink transition-colors"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent shrink-0">
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                  </svg>
+                  <span>WhatsApp ile Yaz</span>
+                </button>
+              </div>
+            </div>
+
+            <div id="contactStatusBanner" class="hidden rounded-lg p-4 text-xs leading-relaxed"></div>
+          </form>
+        </div>
+
+        <div class="desk:col-span-5 min-w-0 space-y-5">
+          <div class="rounded-xl surface-card p-5 space-y-3">
+            <div class="flex items-center justify-between gap-2 pb-2 hairline-b">
+              <span class="font-mono text-xs text-accent font-semibold">CANLI MESAJ ÖNİZLEMESİ</span>
+              <span class="font-mono text-[10px] text-muted">İletilecek İçerik</span>
+            </div>
+
+            <div class="rounded-lg surface-elevated p-4 space-y-2 font-mono text-xs">
+              <div class="flex gap-2 min-w-0">
+                <span class="text-muted shrink-0">Alıcı:</span>
+                <span id="livePreviewTo" class="text-ink truncate">muhammed.akbulut.dev@gmail.com</span>
+              </div>
+              <div class="flex gap-2 min-w-0">
+                <span class="text-muted shrink-0">Gönderen:</span>
+                <span id="livePreviewFrom" class="text-accent truncate">Henüz girilmedi</span>
+              </div>
+              <div class="flex gap-2 min-w-0">
+                <span class="text-muted shrink-0">E-posta:</span>
+                <span id="livePreviewEmail" class="text-ink truncate">Henüz girilmedi</span>
+              </div>
+              <div class="flex gap-2 min-w-0">
+                <span class="text-muted shrink-0">Konu:</span>
+                <span id="livePreviewSubject" class="text-ink truncate">Belirtilmedi</span>
+              </div>
+              <div class="pt-2 hairline-t space-y-1">
+                <span class="text-muted block">Mesaj İçeriği:</span>
+                <p id="livePreviewBody" class="font-sans text-xs text-ink whitespace-pre-wrap break-words leading-relaxed min-h-[54px]">
+                  Formdaki mesaj alanına yazdığınız içerik burada anlık olarak görüntülenir...
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="rounded-xl surface-card p-5 space-y-3">
+            <div class="font-mono text-xs text-accent">DOĞRUDAN İLETİŞİM</div>
+
+            <div class="p-3.5 rounded-lg surface-elevated flex items-center justify-between gap-3">
+              <div class="min-w-0">
+                <div class="font-mono text-[11px] text-muted">E-posta</div>
+                <div id="contactCardEmail" class="font-mono text-xs font-medium text-ink truncate">
+                  muhammed.akbulut.dev@gmail.com
+                </div>
+              </div>
+              <button
+                type="button"
+                onclick="copyConfigEmail()"
+                class="touch-target shrink-0 inline-flex items-center gap-1.5 px-3 py-2 desk:py-1.5 rounded-md surface-card surface-card-hover font-mono text-[11px] text-ink"
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span>Kopyala</span>
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 xs:grid-cols-2 gap-2.5">
+              <a
+                id="contactPhoneAnchor"
+                href="tel:+905314324715"
+                class="touch-target p-3.5 rounded-lg surface-elevated hover:border-[var(--accent)] transition-colors flex items-center gap-2.5"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent shrink-0">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+                <div class="min-w-0">
+                  <div class="font-mono text-[10px] text-muted">Telefon</div>
+                  <div id="contactPhoneText" class="font-mono text-xs font-medium text-ink truncate">05314324715</div>
+                </div>
+              </a>
+
+              <button
+                type="button"
+                onclick="sendViaWhatsApp(false)"
+                class="touch-target p-3.5 rounded-lg surface-elevated hover:border-[var(--accent)] transition-colors flex items-center gap-2.5 text-left"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent shrink-0">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+                <div class="min-w-0">
+                  <div class="font-mono text-[10px] text-muted">WhatsApp</div>
+                  <div class="font-mono text-xs font-medium text-ink truncate">Mesaj Başlat</div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="mt-20 desk:mt-24 hairline-t py-8 px-4">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted text-center sm:text-left">
+      <div>
+        © 2026 <strong class="text-ink font-semibold">Muhammed Mustafa Akbulut</strong> • Harran Üniversitesi
+      </div>
+      <div class="flex items-center justify-center gap-3 font-mono">
+        <span>Web Tasarımı ve Kodlama</span>
+      </div>
+    </div>
+  </footer>
+
+  <div id="commandPaletteModal" class="fixed inset-0 z-50 hidden items-start justify-center pt-12 sm:pt-24 p-3 sm:p-4 bg-black/65 backdrop-blur-xs">
+    <div class="w-full max-w-xl rounded-xl surface-card shadow-2xl overflow-hidden">
+      <div class="flex items-center gap-3 px-4 py-3 hairline-b">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent shrink-0">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input
+          type="text"
+          id="commandPaletteInput"
+          oninput="filterCommandList()"
+          onkeydown="handleCommandKeydown(event)"
+          placeholder="Bölüm, tema veya komut yazın..."
+          class="w-full bg-transparent text-sm text-ink focus:outline-none"
+        />
+        <button type="button" onclick="closeCommandPalette()" class="touch-target inline-flex items-center justify-center font-mono text-[11px] px-2.5 py-1 rounded surface-elevated text-muted shrink-0">
+          ESC
+        </button>
+      </div>
+
+      <div id="commandPaletteList" class="max-h-[60vh] overflow-y-auto p-2 space-y-1"></div>
+
+      <div class="px-4 py-2.5 hairline-t surface-elevated flex items-center justify-between text-[11px] font-mono text-muted">
+        <span>↑↓ Gezin • Enter Seç</span>
+        <span>Muhammed M. Akbulut</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="ideInspectorModal" class="fixed inset-0 z-50 hidden items-center justify-center p-0 desk:p-6 bg-black/75 backdrop-blur-xs">
+    <div class="relative w-full h-[100dvh] desk:h-auto desk:max-w-4xl desk:max-h-[90vh] flex flex-col rounded-none desk:rounded-xl surface-card shadow-2xl overflow-hidden safe-modal-shell">
+      <div class="flex items-center justify-between gap-3 px-4 sm:px-5 py-3 hairline-b surface-elevated shrink-0">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <span id="ideCategoryBadge" class="shrink-0 px-2.5 py-0.5 rounded font-mono text-xs font-semibold bg-accent-soft">
+            C#
+          </span>
+          <h3 id="ideProjectTitle" class="font-display font-bold text-sm sm:text-lg text-ink truncate">
+            Proje İnceleyici
+          </h3>
+        </div>
+        <button type="button" onclick="closeIdeInspector()" aria-label="Pencereyi Kapat" class="touch-target inline-flex items-center justify-center p-2 rounded-lg hover:bg-[var(--bg-surface)] text-muted hover:text-ink transition-colors shrink-0">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="flex items-center gap-1.5 px-4 sm:px-5 py-2 hairline-b bg-[var(--bg-surface)] overflow-x-auto no-scrollbar shrink-0">
+        <button type="button" onclick="switchIdeTab('overview')" data-ide-tab="overview" class="ide-tab-btn touch-target px-3.5 py-2 desk:py-1.5 rounded-lg font-mono text-xs font-semibold bg-accent shrink-0">
+          Genel Bakış &amp; Görsel
+        </button>
+        <button type="button" onclick="switchIdeTab('code')" data-ide-tab="code" class="ide-tab-btn touch-target px-3.5 py-2 desk:py-1.5 rounded-lg font-mono text-xs font-medium text-muted hover:text-ink shrink-0">
+          Kaynak Kod Gezgini
+        </button>
+      </div>
+
+      <div class="overflow-y-auto p-4 sm:p-6 flex-1 min-w-0">
+        <div id="idePanelOverview" class="space-y-5">
+          <div class="relative rounded-xl overflow-hidden border border-[var(--border-color)] aspect-video max-h-72 w-full surface-elevated">
+            <img
+              id="ideCoverImage"
+              src=""
+              alt="Proje Görseli"
+              onclick="openLightbox(this.src)"
+              class="w-full h-full object-cover cursor-zoom-in"
+            />
+            <button
+              type="button"
+              onclick="openLightbox(document.getElementById('ideCoverImage').src)"
+              class="touch-target absolute bottom-3 right-3 px-3 py-1.5 rounded-lg surface-card font-mono text-xs text-ink inline-flex items-center gap-1.5 shadow"
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <polyline points="9 21 3 21 3 15"></polyline>
+                <line x1="21" y1="3" x2="14" y2="10"></line>
+                <line x1="3" y1="21" x2="10" y2="14"></line>
+              </svg>
+              <span>Tam Ekran</span>
+            </button>
+          </div>
+
+          <div class="rounded-xl surface-elevated p-4 space-y-2">
+            <div class="font-mono text-xs text-accent">PROJE AÇIKLAMASI</div>
+            <p id="ideProjectDesc" class="text-sm text-ink leading-relaxed break-words"></p>
+          </div>
+
+          <div id="ideTechNotesBox" class="rounded-xl surface-elevated p-4 space-y-2">
+            <div class="font-mono text-xs text-accent">TEKNİK DETAYLAR</div>
+            <p id="ideProjectTechNotes" class="text-xs sm:text-sm text-muted whitespace-pre-wrap leading-relaxed break-words"></p>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+            <div id="ideTagsContainer" class="flex flex-wrap gap-1.5"></div>
+            <a
+              id="ideGithubExternalBtn"
+              href="https://github.com/muhammedmustafa6308-max"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="touch-target w-full xs:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 desk:py-2 rounded-lg bg-accent font-display font-bold text-xs tracking-tight"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+              </svg>
+              <span>GitHub Deposu</span>
+            </a>
+          </div>
+        </div>
+
+        <div id="idePanelCode" class="hidden space-y-3 min-w-0">
+          <div class="rounded-xl overflow-hidden border border-[var(--border-color)]" style="background-color: var(--code-bg); color: var(--code-text);">
+            <div class="flex items-center justify-between gap-2 px-3.5 sm:px-4 py-2.5 border-b border-white/10" style="background-color: var(--code-header);">
+              <div id="ideFileTabsContainer" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar min-w-0"></div>
+              <button
+                type="button"
+                onclick="copyCurrentIdeCode()"
+                class="touch-target shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white/10 hover:bg-white/20 font-mono text-xs text-white transition-colors"
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span>Kopyala</span>
+              </button>
+            </div>
+
+            <div id="ideCodeLinesWrapper" class="p-3.5 sm:p-4 overflow-x-auto font-mono text-xs sm:text-sm leading-relaxed max-h-[58vh] desk:max-h-96"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end px-4 sm:px-5 py-3 hairline-t surface-elevated shrink-0">
+        <button type="button" onclick="closeIdeInspector()" class="touch-target w-full xs:w-auto px-5 py-2 rounded-lg surface-card font-display font-bold text-xs text-ink">
+          Kapat
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="imageLightboxModal" onclick="closeLightbox()" class="fixed inset-0 z-[70] hidden items-center justify-center p-4 bg-black/90 backdrop-blur-xs cursor-zoom-out">
+    <img id="lightboxImg" src="" alt="Büyütülmüş Ekran Görüntüsü" class="max-w-full max-h-[88dvh] rounded-xl shadow-2xl border border-white/20 object-contain" />
+  </div>
+
+
+  <div id="toastNotificationArea" class="fixed bottom-20 desk:bottom-5 right-4 left-4 xs:left-auto z-[80] flex flex-col gap-2 pointer-events-none"></div>
+
+  <script id="site-config-block">
+    let SITE_CONFIG = {
+      "fullName": "Muhammed Mustafa Akbulut",
+      "age": 18,
+      "university": "Harran Üniversitesi, Teknik Bilimler Meslek Yüksekokulu",
+      "department": "Web Tasarımı ve Kodlama (Önlisans)",
+      "githubUsername": "muhammedmustafa6308-max",
+      "phone": "05314324715",
+      "whatsappNumber": "905314324715",
+      "email": "muhammed.akbulut.dev@gmail.com",
+      "githubSync": true
+    };
+
+    let CUSTOM_PROJECTS = [];
+  </script>
+
+  <script>
+
+    const SANDBOX_PROGRAMS = {
+      "csharp-calc": {
+        fileName: "Program.cs",
+        lang: "csharp",
+        code: "using System;\n\nclass Program\n{\n    static void Main()\n    {\n        Console.Write(\"1. tam sayıyı girin: \");\n        int s1 = Convert.ToInt32(Console.ReadLine());\n\n        Console.Write(\"2. tam sayıyı girin: \");\n        int s2 = Convert.ToInt32(Console.ReadLine());\n\n        Console.WriteLine($\"Toplam: {s1 + s2} | Fark: {s1 - s2} | Çarpım: {s1 * s2}\");\n    }\n}",
+        steps: ["1. tam sayıyı girin:", "2. tam sayıyı girin:"],
+        evaluate: (inputs) => {
+          const a = parseInt(inputs[0], 10);
+          const b = parseInt(inputs[1], 10);
+          if (isNaN(a) || isNaN(b)) {
+            return ["FormatException: Lütfen geçerli tam sayılar girin."];
+          }
+          return [
+            `Toplam: ${a + b} | Fark: ${a - b} | Çarpım: ${a * b}`,
+            `Ortalama: ${((a + b) / 2).toFixed(2)}`
+          ];
+        }
+      },
+      "python-text": {
+        fileName: "MetinAnaliz.py",
+        lang: "python",
+        code: "metin = input(\"Analiz edilecek cümleyi yazın: \")\nkelimeler = metin.split()\nsesli = sum(1 for c in metin.lower() if c in \"aeıioöuü\")\nprint(f\"Kelime: {len(kelimeler)} | Karakter: {len(metin)} | Sesli Harf: {sesli}\")",
+        steps: ["Analiz edilecek cümleyi yazın:"],
+        evaluate: (inputs) => {
+          const text = inputs[0] || "";
+          const words = text.trim().split(/\s+/).filter(Boolean);
+          const vowels = (text.toLowerCase().match(/[aeıioöuü]/g) || []).length;
+          return [
+            `Kelime: ${words.length} | Karakter: ${text.length} | Sesli Harf: ${vowels}`,
+            `Büyük Harf Çıktısı: ${text.toUpperCase()}`
+          ];
+        }
+      },
+      "js-array": {
+        fileName: "DiziAraci.js",
+        lang: "javascript",
+        code: "function istatistik(girdi) {\n  const sayilar = girdi.split(\",\").map(Number).filter(n => !isNaN(n));\n  const toplam = sayilar.reduce((a, b) => a + b, 0);\n  console.log(\"Adet:\", sayilar.length, \"Toplam:\", toplam, \"En Büyük:\", Math.max(...sayilar));\n}",
+        steps: ["Virgülle ayırarak sayılar girin (Örn: 12, 45, 8, 23):"],
+        evaluate: (inputs) => {
+          const nums = (inputs[0] || "")
+            .split(",")
+            .map(s => parseFloat(s.trim()))
+            .filter(n => !isNaN(n));
+          if (nums.length === 0) {
+            return ["Hata: En az bir geçerli sayı girmelisiniz."];
+          }
+          const sum = nums.reduce((acc, v) => acc + v, 0);
+          return [
+            `Adet: ${nums.length} | Toplam: ${sum} | Ortalama: ${(sum / nums.length).toFixed(2)}`,
+            `En Küçük: ${Math.min(...nums)} | En Büyük: ${Math.max(...nums)}`
+          ];
+        }
+      }
+    };
+
+    let syncedGithubProjects = [];
+    let currentProjFilter = "ALL";
+    let activeIdeProject = null;
+    let activeIdeCodeText = "";
+    let activeSandboxKey = "csharp-calc";
+    let sandboxStepIndex = 0;
+    let sandboxCollectedInputs = [];
+    let commandItems = [];
+    let commandSelectedIndex = 0;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initEditorialTheme();
+      syncConfigToUI();
+      setupSmoothLinks();
+      setupScrollSpy();
+      setupKeyboardShortcuts();
+      renderContributionMatrix();
+      renderProjectsSection();
+      selectSandboxProgram("csharp-calc");
+
+      if (SITE_CONFIG.githubSync) {
+        syncGithubRepositories();
+      }
+    });
+
+
+
+    function syncConfigToUI() {
+      ["heroEmailText", "contactCardEmail", "livePreviewTo"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = SITE_CONFIG.email;
+      });
+
+      const phoneVal = SITE_CONFIG.phone || "05314324715";
+      const cleanDigits = phoneVal.replace(/\D/g, "");
+      SITE_CONFIG.whatsappNumber = cleanDigits.startsWith("90")
+        ? cleanDigits
+        : `90${cleanDigits.replace(/^0/, "")}`;
+
+      const heroPhone = document.getElementById("heroPhoneBadge");
+      if (heroPhone) heroPhone.textContent = phoneVal;
+
+      const aboutPhone = document.getElementById("aboutPhoneValue");
+      if (aboutPhone) aboutPhone.textContent = phoneVal;
+
+      const contactPhoneText = document.getElementById("contactPhoneText");
+      if (contactPhoneText) contactPhoneText.textContent = phoneVal;
+
+      const contactPhoneAnchor = document.getElementById("contactPhoneAnchor");
+      if (contactPhoneAnchor) contactPhoneAnchor.href = `tel:+${SITE_CONFIG.whatsappNumber}`;
+
+      const avatarImg = document.getElementById("profileAvatarImg");
+      const avatarFallback = document.getElementById("profileAvatarFallback");
+      if (avatarImg && avatarFallback) {
+        avatarImg.onerror = () => {
+          avatarImg.classList.add("hidden");
+          avatarFallback.classList.remove("hidden");
+        };
+      }
+    }
+
+    function initEditorialTheme() {
+      const savedTheme = localStorage.getItem("mma_theme_v4") || "grafit";
+      setEditorialTheme(savedTheme, false);
+    }
+
+    function setEditorialTheme(themeName, notify = true) {
+      const valid = ["grafit", "kagit", "cizim"].includes(themeName) ? themeName : "grafit";
+      const html = document.documentElement;
+      html.classList.remove("theme-grafit", "theme-kagit", "theme-cizim");
+      html.classList.add(`theme-${valid}`);
+      localStorage.setItem("mma_theme_v4", valid);
+
+      document.querySelectorAll(".theme-switch-btn").forEach(btn => {
+        if (btn.dataset.themeBtn === valid) {
+          btn.style.backgroundColor = "var(--accent)";
+          btn.style.color = "var(--accent-fg)";
+        } else {
+          btn.style.backgroundColor = "transparent";
+          btn.style.color = "var(--text-muted)";
+        }
+      });
+
+      if (notify) {
+        const labels = {
+          grafit: "Grafit",
+          kagit: "Kağıt",
+          cizim: "Çizim"
+        };
+        showToast(`Tema: ${labels[valid]}`);
+      }
+    }
+
+    function cycleEditorialTheme() {
+      const order = ["grafit", "kagit", "cizim"];
+      const current = localStorage.getItem("mma_theme_v4") || "grafit";
+      const next = order[(order.indexOf(current) + 1) % order.length];
+      setEditorialTheme(next, true);
+    }
+
+    function setupSmoothLinks() {
+      document.querySelectorAll(".smooth-nav-link").forEach(link => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          const targetId = link.getAttribute("data-scroll-target");
+          const targetEl = document.getElementById(targetId);
+          if (targetEl) {
+            targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+          document.getElementById("mobileNavDrawer").classList.add("hidden");
+        });
+      });
+    }
+
+    function setupScrollSpy() {
+      const sectionIds = ["hakkimda", "projeler", "konsol", "yetenekler", "iletisim"];
+      const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+      if (!("IntersectionObserver" in window) || sections.length === 0) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const activeId = entry.target.id;
+            document.querySelectorAll("[data-nav-spy]").forEach(el => {
+              if (el.dataset.navSpy === activeId) {
+                el.style.color = "var(--accent)";
+                el.style.backgroundColor = "var(--accent-soft)";
+              } else {
+                el.style.color = "";
+                el.style.backgroundColor = "";
+              }
+            });
+            document.querySelectorAll("[data-dock-spy]").forEach(el => {
+              if (el.dataset.dockSpy === activeId) {
+                el.style.color = "var(--accent)";
+                el.style.backgroundColor = "var(--accent-soft)";
+              } else {
+                el.style.color = "";
+                el.style.backgroundColor = "";
+              }
+            });
+          }
+        });
+      }, { rootMargin: "-25% 0px -60% 0px", threshold: 0.05 });
+
+      sections.forEach(sec => observer.observe(sec));
+    }
+
+    function toggleMobileNav() {
+      document.getElementById("mobileNavDrawer").classList.toggle("hidden");
+    }
+
+
+
+    function setupKeyboardShortcuts() {
+      document.addEventListener("keydown", (e) => {
+        if ((e.ctrlKey || e.metaKey) && (e.key === "k" || e.key === "K")) {
+          e.preventDefault();
+          const modal = document.getElementById("commandPaletteModal");
+          if (modal.classList.contains("hidden")) openCommandPalette();
+          else closeCommandPalette();
+          return;
+        }
+
+        if (e.key === "Escape") {
+          closeCommandPalette();
+          closeIdeInspector();
+          closeLightbox();
+          return;
+        }
+      });
+    }
+
+    function buildCommandItems() {
+      const base = [
+        { label: "Bölüm: Hakkımda", tag: "Gezinme", action: () => scrollToSection("hakkimda") },
+        { label: "Bölüm: Projeler", tag: "Gezinme", action: () => scrollToSection("projeler") },
+        { label: "Bölüm: Canlı Konsol", tag: "Laboratuvar", action: () => scrollToSection("konsol") },
+        { label: "Bölüm: Yetenekler", tag: "Gezinme", action: () => scrollToSection("yetenekler") },
+        { label: "Bölüm: İletişim Merkezi", tag: "Gezinme", action: () => scrollToSection("iletisim") },
+        { label: "Tema: Grafit", tag: "Görünüm", action: () => setEditorialTheme("grafit") },
+        { label: "Tema: Kağıt", tag: "Görünüm", action: () => setEditorialTheme("kagit") },
+        { label: "Tema: Çizim", tag: "Görünüm", action: () => setEditorialTheme("cizim") },
+        { label: `E-postayı Kopyala (${SITE_CONFIG.email})`, tag: "İletişim", action: () => copyConfigEmail() },
+        { label: `Telefonu Kopyala (${SITE_CONFIG.phone})`, tag: "İletişim", action: () => copyTextToClipboard(SITE_CONFIG.phone, "Telefon numarası kopyalandı!") },
+        { label: "GitHub Profilini Aç", tag: "Bağlantı", action: () => window.open(`https://github.com/${SITE_CONFIG.githubUsername}`, "_blank") },
+        { label: "WhatsApp ile Mesaj Gönder", tag: "İletişim", action: () => openWhatsAppQuick() }
+      ];
+
+      const projectCommands = getAllProjects().map(p => ({
+        label: `Proje: ${p.title}`,
+        tag: p.category,
+        action: () => openIdeInspector(p.id)
+      }));
+
+      return [...projectCommands, ...base];
+    }
+
+    function openCommandPalette() {
+      const modal = document.getElementById("commandPaletteModal");
+      const input = document.getElementById("commandPaletteInput");
+      input.value = "";
+      commandSelectedIndex = 0;
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      filterCommandList();
+      setTimeout(() => input.focus(), 40);
+    }
+
+    function closeCommandPalette() {
+      const modal = document.getElementById("commandPaletteModal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+
+    function filterCommandList() {
+      const q = document.getElementById("commandPaletteInput").value.trim().toLowerCase();
+      const all = buildCommandItems();
+
+      if (!q) {
+        commandItems = all;
+      } else {
+        commandItems = all.filter(item =>
+          item.label.toLowerCase().includes(q) || item.tag.toLowerCase().includes(q)
+        );
+      }
+
+      commandSelectedIndex = 0;
+      renderCommandPaletteResults();
+    }
+
+    function renderCommandPaletteResults() {
+      const container = document.getElementById("commandPaletteList");
+      if (commandItems.length === 0) {
+        container.innerHTML = `<div class="p-4 text-center text-xs text-muted">Sonuç bulunamadı.</div>`;
+        return;
+      }
+
+      container.innerHTML = commandItems.map((item, idx) => `
+        <button
+          type="button"
+          onclick="executeCommandItem(${idx})"
+          class="touch-target w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-left text-xs transition-colors ${idx === commandSelectedIndex ? 'bg-accent font-semibold' : 'text-ink hover:bg-[var(--bg-elevated)]'}"
+        >
+          <span class="truncate pr-3">${escapeHtml(item.label)}</span>
+          <span class="font-mono text-[10px] px-2 py-0.5 rounded ${idx === commandSelectedIndex ? 'bg-black/20 text-white' : 'surface-elevated text-muted'} shrink-0">
+            ${escapeHtml(item.tag)}
+          </span>
+        </button>
+      `).join("");
+    }
+
+    function handleCommandKeydown(e) {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        if (commandItems.length > 0) {
+          commandSelectedIndex = (commandSelectedIndex + 1) % commandItems.length;
+          renderCommandPaletteResults();
+        }
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        if (commandItems.length > 0) {
+          commandSelectedIndex = (commandSelectedIndex - 1 + commandItems.length) % commandItems.length;
+          renderCommandPaletteResults();
+        }
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        executeCommandItem(commandSelectedIndex);
+      }
+    }
+
+    function executeCommandItem(idx) {
+      const item = commandItems[idx];
+      closeCommandPalette();
+      if (item && typeof item.action === "function") {
+        item.action();
+      }
+    }
+
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function renderContributionMatrix() {
+      const grid = document.getElementById("contributionMatrix");
+      const pattern = [
+        0,0,1,0,0,1,1,0,0,1,2,2,1,0,1,2,
+        0,1,2,1,0,1,0,0,1,2,3,2,1,1,2,3,
+        1,0,1,0,1,2,1,1,0,1,2,1,0,2,3,2,
+        0,0,1,1,0,1,0,0,1,0,1,2,1,1,2,3
+      ];
+
+      const months = ["Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara"];
+
+      grid.innerHTML = pattern.map((lvl, idx) => {
+        const month = months[Math.floor((idx / 64) * 12)];
+        const label = lvl === 0 ? "Planlama" : `Seviye ${lvl}`;
+        let bgStyle = "background-color: var(--bg-elevated);";
+        if (lvl === 1) bgStyle = "background-color: color-mix(in srgb, var(--accent) 28%, var(--bg-elevated));";
+        if (lvl === 2) bgStyle = "background-color: color-mix(in srgb, var(--accent) 62%, var(--bg-elevated));";
+        if (lvl === 3) bgStyle = "background-color: var(--accent);";
+
+        return `<div
+          onmouseenter="document.getElementById('matrixHoverInfo').textContent='${month} 2026 • ${label}'"
+          onmouseleave="document.getElementById('matrixHoverInfo').textContent='Hücrelere dokunun'"
+          style="${bgStyle}"
+          class="aspect-square rounded-[3px] border border-[var(--border-color)] transition-transform hover:scale-125"
+        ></div>`;
+      }).join("");
+    }
+
+    async function syncGithubRepositories() {
+      if (!SITE_CONFIG.githubSync) {
+        syncedGithubProjects = [];
+        renderProjectsSection();
+        return;
+      }
+
+      try {
+        const res = await fetch(`https://api.github.com/users/${SITE_CONFIG.githubUsername}/repos?sort=updated&per_page=30`);
+        if (!res.ok) throw new Error("GitHub API error");
+        const repos = await res.json();
+
+        if (Array.isArray(repos)) {
+          syncedGithubProjects = repos.map(repo => {
+            const lang = repo.language || "C#";
+            const cat = normalizeCategory(lang);
+            const title = repo.name.replace(/[-_]+/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+            return {
+              id: `gh-${repo.id}`,
+              repoSlug: repo.name,
+              title,
+              category: cat,
+              year: new Date(repo.created_at || "2026-01-01").getFullYear().toString(),
+              isGithubRepo: true,
+              description: repo.description || `${title} — GitHub deposu.`,
+              techDetails: `GitHub açık kaynak deposu (${repo.full_name}).`,
+              image: `https://placehold.co/960x540/1A1A18/E85D35?text=${encodeURIComponent(cat + " • " + title.slice(0, 24))}`,
+              githubUrl: repo.html_url,
+              tags: [lang, "GitHub"],
+              files: []
+            };
+          });
+        }
+      } catch (e) {
+        syncedGithubProjects = [];
+      }
+
+      renderProjectsSection();
+    }
+
+    function normalizeCategory(lang) {
+      const l = (lang || "").toLowerCase();
+      if (l.includes("c#") || l.includes("csharp")) return "C#";
+      if (l.includes("python")) return "Python";
+      if (l.includes("html") || l.includes("css") || l.includes("javascript") || l.includes("typescript")) return "Web";
+      return "Diğer";
+    }
+
+    function getAllProjects() {
+      const gh = SITE_CONFIG.githubSync ? syncedGithubProjects : [];
+      return [...(CUSTOM_PROJECTS || []), ...gh];
+    }
+
+    function filterProjectsBy(cat) {
+      currentProjFilter = cat;
+      document.querySelectorAll(".proj-tab-btn").forEach(btn => {
+        if (btn.dataset.projFilter === cat) {
+          btn.className = "proj-tab-btn touch-target shrink-0 px-3.5 py-2 desk:py-1.5 rounded-lg font-mono text-xs font-semibold bg-accent transition-colors";
+        } else {
+          btn.className = "proj-tab-btn touch-target shrink-0 px-3.5 py-2 desk:py-1.5 rounded-lg font-mono text-xs font-medium surface-card text-muted hover:text-ink transition-colors";
+        }
+      });
+      renderProjectsSection();
+    }
+
+    function renderProjectsSection() {
+      const all = getAllProjects();
+      const statusLabel = document.getElementById("projectsStatusLabel");
+      const filterBar = document.getElementById("projectsFilterBar");
+      const container = document.getElementById("projectsContainer");
+      const statCounter = document.getElementById("statPublishedProjects");
+
+      if (statCounter) statCounter.textContent = all.length;
+
+      if (all.length === 0) {
+        if (statusLabel) statusLabel.textContent = "0 yayınlanmış proje";
+        if (filterBar) {
+          filterBar.classList.add("hidden");
+          filterBar.classList.remove("flex");
+        }
+
+        container.innerHTML = `
+          <div class="rounded-xl surface-card p-8 sm:p-12 text-center space-y-4">
+            <div class="w-12 h-12 mx-auto rounded-xl surface-elevated flex items-center justify-center text-accent">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+              </svg>
+            </div>
+            <div class="space-y-1.5 max-w-lg mx-auto">
+              <h3 class="font-display font-bold text-base sm:text-lg text-ink">
+                Henüz yayınlanmış proje bulunmuyor
+              </h3>
+              <p class="text-xs sm:text-sm text-muted leading-relaxed">
+                Harran Üniversitesi Web Tasarımı ve Kodlama eğitim sürecim boyunca geliştireceğim C#, Python ve Web projeleri ekran görüntüleri ve kaynak kodlarıyla birlikte burada yer alacaktır.
+              </p>
+            </div>
+            <div class="pt-1">
+              <a
+                href="https://github.com/${escapeHtml(SITE_CONFIG.githubUsername)}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="touch-target inline-flex items-center gap-2 px-4 py-2 rounded-lg surface-elevated hover:border-[var(--accent)] font-mono text-xs text-ink transition-colors"
+              >
+                <span>GitHub Hesabını İncele</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      if (statusLabel) statusLabel.textContent = `${all.length} yayınlanmış proje`;
+      if (filterBar) {
+        filterBar.classList.remove("hidden");
+        filterBar.classList.add("flex");
+      }
+
+      document.getElementById("badge-ALL").textContent = all.length;
+      document.getElementById("badge-Web").textContent = all.filter(p => p.category === "Web").length;
+      document.getElementById("badge-C#").textContent = all.filter(p => p.category === "C#").length;
+      document.getElementById("badge-Python").textContent = all.filter(p => p.category === "Python").length;
+      document.getElementById("badge-Diğer").textContent = all.filter(p => p.category === "Diğer").length;
+
+      const filtered = currentProjFilter === "ALL" ? all : all.filter(p => p.category === currentProjFilter);
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="rounded-xl surface-elevated p-8 text-center text-xs text-muted">
+            Bu kategoride henüz proje bulunmuyor.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="projects-responsive-grid">
+          ${filtered.map(proj => `
+            <article
+              onclick="openIdeInspector('${proj.id}')"
+              class="group cursor-pointer rounded-xl surface-card surface-card-hover overflow-hidden flex flex-col justify-between min-w-0"
+            >
+              <div class="min-w-0">
+                <div class="relative h-44 surface-elevated hairline-b overflow-hidden">
+                  <img
+                    src="${escapeHtml(proj.image)}"
+                    onerror="this.onerror=null;this.src='https://placehold.co/960x540/1A1A18/F2F0EA?text=${encodeURIComponent(proj.category)}';"
+                    alt="${escapeHtml(proj.title)}"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div class="absolute top-3 left-3 flex items-center gap-1.5">
+                    <span class="px-2.5 py-0.5 rounded font-mono text-[11px] font-semibold surface-card text-ink">
+                      ${escapeHtml(proj.category)}
+                    </span>
+                    <span class="px-2 py-0.5 rounded font-mono text-[10px] surface-card text-muted">
+                      ${escapeHtml(proj.year || "2026")}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="p-4 sm:p-5 space-y-2.5 min-w-0">
+                  <h3 class="font-display font-bold text-base text-ink group-hover:text-accent transition-colors break-words line-clamp-2">
+                    ${escapeHtml(proj.title)}
+                  </h3>
+                  <p class="text-xs sm:text-sm text-muted line-clamp-2 leading-relaxed break-words">
+                    ${escapeHtml(proj.description)}
+                  </p>
+                  ${Array.isArray(proj.tags) && proj.tags.length > 0 ? `
+                    <div class="flex flex-wrap gap-1.5 pt-1">
+                      ${proj.tags.slice(0, 4).map(t => `<span class="px-2 py-0.5 rounded surface-elevated font-mono text-[10px] text-muted">${escapeHtml(t)}</span>`).join("")}
+                    </div>
+                  ` : ""}
+                </div>
+              </div>
+
+              <div class="px-4 sm:px-5 py-3 hairline-t flex items-center justify-between font-mono text-xs">
+                <span class="text-accent font-semibold">IDE Kod Gezgini</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted group-hover:text-accent transition-colors shrink-0">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </div>
+            </article>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    async function openIdeInspector(projectId) {
+      const project = getAllProjects().find(p => p.id === projectId);
+      if (!project) return;
+
+      activeIdeProject = project;
+      const modal = document.getElementById("ideInspectorModal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      document.body.style.overflow = "hidden";
+
+      document.getElementById("ideCategoryBadge").textContent = project.category;
+      document.getElementById("ideProjectTitle").textContent = project.title;
+      document.getElementById("ideCoverImage").src = project.image;
+      document.getElementById("ideProjectDesc").textContent = project.description;
+
+      const techNotesBox = document.getElementById("ideTechNotesBox");
+      const techNotesEl = document.getElementById("ideProjectTechNotes");
+      if (project.techDetails && project.techDetails.trim()) {
+        techNotesEl.textContent = project.techDetails;
+        techNotesBox.classList.remove("hidden");
+      } else {
+        techNotesBox.classList.add("hidden");
+      }
+
+      const ghBtn = document.getElementById("ideGithubExternalBtn");
+      if (project.githubUrl && project.githubUrl.trim()) {
+        ghBtn.href = project.githubUrl;
+        ghBtn.classList.remove("hidden");
+      } else {
+        ghBtn.classList.add("hidden");
+      }
+
+      const tagsEl = document.getElementById("ideTagsContainer");
+      const tags = project.tags || [project.category];
+      tagsEl.innerHTML = tags.map(t => `<span class="px-2.5 py-1 rounded surface-elevated font-mono text-[11px] text-ink">${escapeHtml(t)}</span>`).join("");
+
+      switchIdeTab("overview");
+
+      const tabsContainer = document.getElementById("ideFileTabsContainer");
+      const codeWrapper = document.getElementById("ideCodeLinesWrapper");
+
+      if (project.isGithubRepo && project.repoSlug) {
+        tabsContainer.innerHTML = `<span class="font-mono text-xs text-gray-400">Depo dosyaları yükleniyor...</span>`;
+        codeWrapper.innerHTML = `<div class="text-gray-400">GitHub API üzerinden kaynak kod okunuyor...</div>`;
+
+        try {
+          const resp = await fetch(`https://api.github.com/repos/${SITE_CONFIG.githubUsername}/${project.repoSlug}/contents`);
+          if (!resp.ok) throw new Error("GitHub API error");
+          const items = await resp.json();
+          const filesOnly = Array.isArray(items) ? items.filter(i => i.type === "file") : [];
+
+          if (filesOnly.length > 0) {
+            project._remoteFiles = filesOnly;
+            renderRemoteFileTabs(filesOnly);
+            await fetchAndRenderRemoteFile(filesOnly[0]);
+            return;
+          }
+        } catch (err) {}
+      }
+
+      const files = project.files && project.files.length > 0
+        ? project.files
+        : [{ name: "README.md", lang: "markdown", content: `# ${project.title}\n\n${project.description}` }];
+
+      renderLocalFileTabs(files);
+    }
+
+    function switchIdeTab(tabName) {
+      document.querySelectorAll(".ide-tab-btn").forEach(btn => {
+        if (btn.dataset.ideTab === tabName) {
+          btn.className = "ide-tab-btn touch-target px-3.5 py-2 desk:py-1.5 rounded-lg font-mono text-xs font-semibold bg-accent shrink-0";
+        } else {
+          btn.className = "ide-tab-btn touch-target px-3.5 py-2 desk:py-1.5 rounded-lg font-mono text-xs font-medium text-muted hover:text-ink shrink-0";
+        }
+      });
+
+      document.getElementById("idePanelOverview").classList.toggle("hidden", tabName !== "overview");
+      document.getElementById("idePanelCode").classList.toggle("hidden", tabName !== "code");
+    }
+
+    function renderRemoteFileTabs(files) {
+      const container = document.getElementById("ideFileTabsContainer");
+      container.innerHTML = files.map((f, idx) => `
+        <button
+          type="button"
+          onclick="selectRemoteIdeFile(${idx})"
+          class="remote-ide-tab touch-target shrink-0 px-3 py-1 rounded font-mono text-xs transition-colors ${idx === 0 ? 'bg-accent font-semibold' : 'text-gray-300 hover:bg-white/10'}"
+        >
+          ${escapeHtml(f.name)}
+        </button>
+      `).join("");
+    }
+
+    async function selectRemoteIdeFile(idx) {
+      if (!activeIdeProject || !activeIdeProject._remoteFiles) return;
+      document.querySelectorAll(".remote-ide-tab").forEach((b, i) => {
+        b.className = i === idx
+          ? "remote-ide-tab touch-target shrink-0 px-3 py-1 rounded font-mono text-xs transition-colors bg-accent font-semibold"
+          : "remote-ide-tab touch-target shrink-0 px-3 py-1 rounded font-mono text-xs transition-colors text-gray-300 hover:bg-white/10";
+      });
+      await fetchAndRenderRemoteFile(activeIdeProject._remoteFiles[idx]);
+    }
+
+    async function fetchAndRenderRemoteFile(fileItem) {
+      const codeWrapper = document.getElementById("ideCodeLinesWrapper");
+      codeWrapper.innerHTML = `<div class="text-gray-400">${escapeHtml(fileItem.name)} yükleniyor...</div>`;
+      try {
+        const res = await fetch(fileItem.download_url);
+        const text = await res.text();
+        renderNumberedCodeTable(text, inferLanguageFromFilename(fileItem.name));
+      } catch (e) {
+        renderNumberedCodeTable("Dosya içeriği okunamadı.", "plaintext");
+      }
+    }
+
+    function renderLocalFileTabs(files) {
+      const container = document.getElementById("ideFileTabsContainer");
+      container.innerHTML = files.map((f, idx) => `
+        <button
+          type="button"
+          onclick="selectLocalIdeFile(${idx})"
+          class="local-ide-tab touch-target shrink-0 px-3 py-1 rounded font-mono text-xs transition-colors ${idx === 0 ? 'bg-accent font-semibold' : 'text-gray-300 hover:bg-white/10'}"
+        >
+          ${escapeHtml(f.name)}
+        </button>
+      `).join("");
+
+      activeIdeProject._localFiles = files;
+      renderNumberedCodeTable(files[0].content, files[0].lang || inferLanguageFromFilename(files[0].name));
+    }
+
+    function selectLocalIdeFile(idx) {
+      if (!activeIdeProject || !activeIdeProject._localFiles) return;
+      document.querySelectorAll(".local-ide-tab").forEach((b, i) => {
+        b.className = i === idx
+          ? "local-ide-tab touch-target shrink-0 px-3 py-1 rounded font-mono text-xs transition-colors bg-accent font-semibold"
+          : "local-ide-tab touch-target shrink-0 px-3 py-1 rounded font-mono text-xs transition-colors text-gray-300 hover:bg-white/10";
+      });
+      const f = activeIdeProject._localFiles[idx];
+      renderNumberedCodeTable(f.content, f.lang || inferLanguageFromFilename(f.name));
+    }
+
+    function renderNumberedCodeTable(rawCode, lang) {
+      activeIdeCodeText = rawCode;
+      const wrapper = document.getElementById("ideCodeLinesWrapper");
+      const lines = rawCode.split("\n");
+
+      const rowsHtml = lines.map((line, idx) => `
+        <tr>
+          <td class="code-line-num">${idx + 1}</td>
+          <td class="code-line-content"><code class="language-${lang}">${escapeHtml(line) || " "}</code></td>
+        </tr>
+      `).join("");
+
+      wrapper.innerHTML = `<table class="code-line-table"><tbody>${rowsHtml}</tbody></table>`;
+
+      if (window.hljs) {
+        wrapper.querySelectorAll("code").forEach(block => {
+          hljs.highlightElement(block);
+        });
+      }
+    }
+
+    function inferLanguageFromFilename(filename) {
+      const ext = (filename.split(".").pop() || "").toLowerCase();
+      const map = { cs: "csharp", py: "python", js: "javascript", html: "xml", css: "css", md: "markdown", json: "json" };
+      return map[ext] || "csharp";
+    }
+
+    function copyCurrentIdeCode() {
+      if (!activeIdeCodeText) return;
+      copyTextToClipboard(activeIdeCodeText, "Kaynak kod kopyalandı!");
+    }
+
+    function closeIdeInspector() {
+      const modal = document.getElementById("ideInspectorModal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+      document.body.style.overflow = "";
+    }
+
+    function openLightbox(src) {
+      if (!src) return;
+      const lb = document.getElementById("imageLightboxModal");
+      document.getElementById("lightboxImg").src = src;
+      lb.classList.remove("hidden");
+      lb.classList.add("flex");
+    }
+
+    function closeLightbox() {
+      const lb = document.getElementById("imageLightboxModal");
+      lb.classList.add("hidden");
+      lb.classList.remove("flex");
+    }
+
+    function selectSandboxProgram(key) {
+      const prog = SANDBOX_PROGRAMS[key];
+      if (!prog) return;
+      activeSandboxKey = key;
+
+      document.querySelectorAll(".sandbox-tab-btn").forEach(btn => {
+        if (btn.dataset.sandboxBtn === key) {
+          btn.className = "sandbox-tab-btn touch-target shrink-0 px-3 py-2 desk:py-1.5 rounded-md font-mono text-xs font-semibold bg-accent transition-colors";
+        } else {
+          btn.className = "sandbox-tab-btn touch-target shrink-0 px-3 py-2 desk:py-1.5 rounded-md font-mono text-xs text-gray-300 hover:bg-white/10 transition-colors";
+        }
+      });
+
+      document.getElementById("sandboxFileLabel").textContent = `Dosya: ${prog.fileName}`;
+      const codeEl = document.getElementById("sandboxSourceCode");
+      codeEl.removeAttribute("data-highlighted");
+      codeEl.className = `language-${prog.lang}`;
+      codeEl.textContent = prog.code;
+      if (window.hljs) hljs.highlightElement(codeEl);
+
+      restartSandbox();
+    }
+
+    function restartSandbox() {
+      const prog = SANDBOX_PROGRAMS[activeSandboxKey];
+      sandboxStepIndex = 0;
+      sandboxCollectedInputs = [];
+
+      const out = document.getElementById("sandboxTerminalOutput");
+      out.innerHTML = `
+        <div class="text-gray-400">$ run ${escapeHtml(prog.fileName)}</div>
+        <div class="text-white font-semibold">${escapeHtml(prog.steps[0])}</div>
+      `;
+
+      const input = document.getElementById("sandboxUserInput");
+      input.value = "";
+      input.disabled = false;
+    }
+
+    function handleSandboxSubmit(e) {
+      e.preventDefault();
+      const prog = SANDBOX_PROGRAMS[activeSandboxKey];
+      const input = document.getElementById("sandboxUserInput");
+      const val = input.value.trim();
+      if (!val) return;
+
+      const out = document.getElementById("sandboxTerminalOutput");
+      out.innerHTML += `<div style="color: var(--accent);">&gt; ${escapeHtml(val)}</div>`;
+
+      sandboxCollectedInputs.push(val);
+      sandboxStepIndex++;
+      input.value = "";
+
+      if (sandboxStepIndex < prog.steps.length) {
+        out.innerHTML += `<div class="text-white font-semibold">${escapeHtml(prog.steps[sandboxStepIndex])}</div>`;
+      } else {
+        const results = prog.evaluate(sandboxCollectedInputs);
+        results.forEach(line => {
+          out.innerHTML += `<div class="text-emerald-400 font-semibold">${escapeHtml(line)}</div>`;
+        });
+        out.innerHTML += `<div class="text-gray-400 pt-1">İşlem tamamlandı. Tekrar denemek için "Sıfırla"ya dokunun.</div>`;
+        input.disabled = true;
+      }
+
+      out.scrollTop = out.scrollHeight;
+    }
+
+    function handleContactFieldInput(fieldId, errorId) {
+      const field = document.getElementById(fieldId);
+      const err = document.getElementById(errorId);
+      field.classList.remove("input-error");
+      err.classList.add("hidden");
+
+      const name = document.getElementById("cName").value.trim();
+      const email = document.getElementById("cEmail").value.trim();
+      const subject = document.getElementById("cSubject").value.trim();
+      const msg = document.getElementById("cMessage").value.trim();
+
+      document.getElementById("livePreviewFrom").textContent = name || "Henüz girilmedi";
+      document.getElementById("livePreviewEmail").textContent = email || "Henüz girilmedi";
+      document.getElementById("livePreviewSubject").textContent = subject || "Belirtilmedi";
+      document.getElementById("livePreviewBody").textContent =
+        msg || "Formdaki mesaj alanına yazdığınız içerik burada anlık olarak görüntülenir...";
+
+      const counter = document.getElementById("cCharCounter");
+      counter.textContent = `${msg.length} / min 10 karakter`;
+      counter.className = msg.length >= 10
+        ? "font-mono text-[11px] text-accent font-semibold"
+        : "font-mono text-[11px] text-muted";
+    }
+
+    function setFieldError(fieldId, errorId, message) {
+      const field = document.getElementById(fieldId);
+      const err = document.getElementById(errorId);
+      field.classList.add("input-error");
+      err.textContent = message;
+      err.classList.remove("hidden");
+    }
+
+    function isRandomSpamText(str) {
+      const compact = str.replace(/\s+/g, "").toLowerCase();
+      if (!compact) return true;
+      if (/^(.)\1+$/.test(compact)) return true;
+      const smash = ["asdf", "asdfg", "qwer", "qwert", "zxcv", "1234", "12345", "ss", "sss"];
+      return smash.includes(compact);
+    }
+
+    function validateContactInputs() {
+      const nameEl = document.getElementById("cName");
+      const emailEl = document.getElementById("cEmail");
+      const subjectEl = document.getElementById("cSubject");
+      const msgEl = document.getElementById("cMessage");
+
+      const name = nameEl.value.trim();
+      const email = emailEl.value.trim();
+      const subject = subjectEl.value.trim();
+      const message = msgEl.value.trim();
+
+      let firstBad = null;
+
+      if (name.length < 3 || !/[a-zA-ZçğıöşüÇĞİÖŞÜ]{2,}/.test(name) || isRandomSpamText(name)) {
+        setFieldError("cName", "errName", "Lütfen geçerli bir Ad ve Soyad girin (en az 3 karakter).");
+        if (!firstBad) firstBad = nameEl;
+      }
+
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!email || !emailRegex.test(email)) {
+        setFieldError("cEmail", "errEmail", "Lütfen geçerli bir e-posta adresi girin (örn: adiniz@gmail.com).");
+        if (!firstBad) firstBad = emailEl;
+      }
+
+      if (subject.length < 3 || isRandomSpamText(subject)) {
+        setFieldError("cSubject", "errSubject", "Lütfen anlaşılır bir konu başlığı girin.");
+        if (!firstBad) firstBad = subjectEl;
+      }
+
+      const letters = (message.match(/[a-zA-ZçğıöşüÇĞİÖŞÜ]/g) || []).length;
+      if (message.length < 10 || letters < 4 || isRandomSpamText(message)) {
+        setFieldError("cMessage", "errMessage", "Lütfen en az 10 karakterden oluşan anlamlı bir mesaj yazın.");
+        if (!firstBad) firstBad = msgEl;
+      }
+
+      if (firstBad) {
+        firstBad.focus({ preventScroll: true });
+        return null;
+      }
+
+      return { name, email, subject, message };
+    }
+
+    async function submitContactAjax() {
+      const data = validateContactInputs();
+      if (!data) return;
+
+      const btn = document.getElementById("btnAjaxSend");
+      const label = document.getElementById("btnAjaxSendLabel");
+      const banner = document.getElementById("contactStatusBanner");
+
+      btn.disabled = true;
+      label.textContent = "Gönderiliyor...";
+      banner.classList.add("hidden");
+
+      try {
+        const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(SITE_CONFIG.email)}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify({
+            name: data.name,
+            email: data.email,
+            _replyto: data.email,
+            _subject: `[Portfolyo İletişim] ${data.subject} — ${data.name}`,
+            Konu: data.subject,
+            Mesaj: data.message
+          })
+        });
+
+        const json = await res.json();
+        if (res.ok && (json.success === "true" || json.success === true)) {
+          banner.className = "rounded-lg p-4 text-xs leading-relaxed surface-elevated text-ink";
+          banner.style.borderColor = "#22C55E";
+          banner.innerHTML = `
+            <strong class="text-[#22C55E] block mb-1">Mesajınız başarıyla iletildi!</strong>
+            Gönderen: <b>${escapeHtml(data.name)}</b> (${escapeHtml(data.email)}) — Konu: <b>${escapeHtml(data.subject)}</b>.
+          `;
+          banner.classList.remove("hidden");
+          showToast("Mesajınız başarıyla gönderildi!");
+        } else {
+          throw new Error("FormSubmit error");
+        }
+      } catch (err) {
+        banner.className = "rounded-lg p-4 text-xs leading-relaxed surface-elevated text-ink";
+        banner.style.borderColor = "var(--accent)";
+        banner.innerHTML = `
+          <strong class="text-accent block mb-1">Sunucu üzerinden gönderim tamamlanamadı.</strong>
+          Mesajınızı eksiksiz iletmek için <b>"Gmail ile Gönder"</b> veya <b>"E-posta Uygulamasını Aç"</b> butonunu kullanabilirsiniz.
+        `;
+        banner.classList.remove("hidden");
+      } finally {
+        btn.disabled = false;
+        label.textContent = "Site Üzerinden Gönder";
+      }
+    }
+
+    function sendViaGmailCompose() {
+      const data = validateContactInputs();
+      if (!data) return;
+
+      const subject = `[Portfolyo] ${data.subject} — ${data.name}`;
+      const body =
+        `Merhaba Muhammed Mustafa Akbulut,\n\n` +
+        `Gönderen Ad Soyad: ${data.name}\n` +
+        `Gönderen E-posta: ${data.email}\n` +
+        `Konu: ${data.subject}\n\n` +
+        `Mesaj:\n${data.message}`;
+
+      const url =
+        `https://mail.google.com/mail/?view=cm&fs=1` +
+        `&to=${encodeURIComponent(SITE_CONFIG.email)}` +
+        `&su=${encodeURIComponent(subject)}` +
+        `&body=${encodeURIComponent(body)}`;
+
+      window.open(url, "_blank", "noopener,noreferrer");
+      showToast("Gmail oluşturma ekranı açıldı.");
+    }
+
+    function sendViaMailtoClient() {
+      const data = validateContactInputs();
+      if (!data) return;
+
+      const subject = `[Portfolyo] ${data.subject} — ${data.name}`;
+      const body =
+        `Merhaba Muhammed Mustafa Akbulut,\r\n\r\n` +
+        `Gönderen Ad Soyad: ${data.name}\r\n` +
+        `Gönderen E-posta: ${data.email}\r\n` +
+        `Konu: ${data.subject}\r\n\r\n` +
+        `Mesaj:\r\n${data.message}`;
+
+      const mailto =
+        `mailto:${SITE_CONFIG.email}` +
+        `?subject=${encodeURIComponent(subject)}` +
+        `&body=${encodeURIComponent(body)}`;
+
+      const a = document.createElement("a");
+      a.href = mailto;
+      a.style.display = "none";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      showToast("E-posta uygulaması açılıyor...");
+    }
+
+    function sendViaWhatsApp(requireValidation = false) {
+      const name = document.getElementById("cName").value.trim();
+      const email = document.getElementById("cEmail").value.trim();
+      const subject = document.getElementById("cSubject").value.trim();
+      const message = document.getElementById("cMessage").value.trim();
+
+      if (requireValidation && (name || message)) {
+        const valid = validateContactInputs();
+        if (!valid) return;
+      }
+
+      let text = "Merhaba Muhammed, portfolyo siten üzerinden ulaşıyorum.";
+      if (name || message) {
+        text =
+          `Merhaba Muhammed, portfolyo siten üzerinden ulaşıyorum.\n\n` +
+          (name ? `Ad Soyad: ${name}\n` : "") +
+          (email ? `E-posta: ${email}\n` : "") +
+          (subject ? `Konu: ${subject}\n` : "") +
+          (message ? `Mesaj: ${message}` : "");
+      }
+
+      window.open(`https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
+    }
+
+    function openWhatsAppQuick() {
+      sendViaWhatsApp(false);
+    }
+
+    function copyConfigEmail() {
+      copyTextToClipboard(SITE_CONFIG.email, `E-posta kopyalandı: ${SITE_CONFIG.email}`);
+    }
+
+
+    function copyTextToClipboard(text, message) {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand("copy");
+        showToast(message);
+      } catch (e) {
+        showToast("Kopyalama başarısız.");
+      }
+      document.body.removeChild(ta);
+    }
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function showToast(msg) {
+      const area = document.getElementById("toastNotificationArea");
+      const toast = document.createElement("div");
+      toast.className = "pointer-events-auto px-4 py-3 rounded-lg surface-card shadow-xl text-xs font-medium text-ink transition-all duration-300";
+      toast.style.borderLeft = "3px solid var(--accent)";
+      toast.textContent = msg;
+      area.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(8px)";
+        setTimeout(() => toast.remove(), 300);
+      }, 3200);
+    }
+  </script>
+</body>
+</html>
